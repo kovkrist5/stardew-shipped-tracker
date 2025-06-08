@@ -14,10 +14,13 @@ namespace stardew
     public partial class Form1 : Form
     {
 
-        List<Shipped> shippedlist;
+        static List<Shipped> shippedlist;
+        
+
         public void LabelUpdate()
         {
             label1.Text = $"shipped items: {Shipped.counter}/{shippedlist.Count}";
+            savebutton.Text = "save";
         }
 
         public Form1()
@@ -32,19 +35,23 @@ namespace stardew
                 else listbox.Items.Add($"{s.id}, {s.name}", false);
 
             }
+            
             LabelUpdate();
 
 
         }
-
+        
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             //
+            
+            int lineid = Convert.ToInt32(listbox.SelectedIndex.ToString());
+            
 
-            string lineid = listbox.SelectedIndex.ToString();
-                if (listbox.GetItemCheckState(int.Parse(lineid)) == CheckState.Checked)
+                if (listbox.GetItemCheckState(lineid) == CheckState.Checked)
                 {
                     Shipped.counter++;
+               
                     LabelUpdate();
                     
 
@@ -52,7 +59,8 @@ namespace stardew
                 else
                 {
                     Shipped.counter--;
-                    LabelUpdate();
+                
+                LabelUpdate();
                 }
             
             
@@ -96,6 +104,29 @@ namespace stardew
             {
                 savebutton.Text = "error";
             }
+        }
+
+
+        //https://www.youtube.com/watch?v=UiMyTCt5jEY&ab_channel=C-TinNistor
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            listbox.Items.Clear();
+            foreach (Shipped s in shippedlist)
+            {
+                string name = s.name;
+                if (name.ToLower().Contains(textBox1.Text.ToLower()))
+                {
+                    if (s.check == true) listbox.Items.Add($"{s.id}, {s.name}", true);
+                    else listbox.Items.Add($"{s.id}, {s.name}", false);
+
+                }
+            }
+           
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

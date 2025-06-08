@@ -42,6 +42,7 @@ namespace stardew
                 
             }
             sr.Close();
+            
             return shippedlist;
         }
         
